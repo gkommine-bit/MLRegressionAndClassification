@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ONNX Model Inference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --border: #e5e7eb;
+        --text: #111827;
+        --muted: #6b7280;
+        --bg: #ffffff;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        max-width: 960px;
+        margin: 28px auto;
+        padding: 0 14px;
+      }
+      h1 {
+        margin: 0 0 6px;
+      }
+      p.muted {
+        color: var(--muted);
+        margin-top: 0;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fff;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      input[type="number"],
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-family: inherit;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      button {
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 1px solid #111;
+        background: #111;
+        color: #fff;
+        cursor: pointer;
+      }
+      button.ghost {
+        background: #fff;
+        color: #111;
+      }
+      #result {
+        font-size: 1.35rem;
+        font-weight: 800;
+        margin-top: 6px;
+      }
+      .kv {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        background: #f8fafc;
+        padding: 8px 10px;
+        border-radius: 8px;
+        white-space: pre-wrap;
+      }
+      .footer {
+        margin-top: 18px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ONNX Model Inference (Browser)</h1>
+    <p class="muted">
+      Loads a .onnx file and runs inference in your browser via onnxruntime-web.
+      Works with or without meta.json.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Inputs</h3>
+        <div id="inputs"></div>
+
+        <div class="card" style="margin-top: 12px">
+          <h4>Quick Paste (optional)</h4>
+          <label for="csvRow">Comma-separated feature row</label>
+          <input
+            id="csvRow"
+            type="text"
+            placeholder="e.g. 0.12, 1.0, 3.5, 0, 42, ..."
+          />
+          <small class="muted"
+            >If filled, this overrides the individual inputs.</small
+          >
+        </div>
+
+        <div class="row" style="margin-top: 12px">
+          <button id="predictBtn">Predict</button>
+          <button id="resetBtn" class="ghost">Reset</button>
+          <span id="status" class="muted"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Prediction</h3>
+        <div id="result">—</div>
+        <div class="kv" id="metaInfo"></div>
+        <div class="footer">
+          <div>
+            <strong>Tip:</strong> If you include <code>meta.json</code> (with
+            <code>feature_names</code> and optional scaler stats), inputs and
+            scaling are automatic. Without it, the app uses manual constants
+            from <code>app.js</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- onnxruntime-web -->
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
